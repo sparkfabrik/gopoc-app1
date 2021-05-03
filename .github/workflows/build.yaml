@@ -13,6 +13,10 @@ jobs:
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build the tagged Docker image
+        run: docker build . --file Dockerfile --tag aypx/gitops-poc-app-1:${GITHUB_SHA}
+      - name: Push the tagged Docker image
+        run: docker push aypx/gitops-poc-app-1:${GITHUB_SHA}
+      - name: Build the tagged Docker image
         run: docker build . --file Dockerfile --tag aypx/gitops-poc-app-1:${GITHUB_REF##*/}
       - name: Push the tagged Docker image
         run: docker push aypx/gitops-poc-app-1:${GITHUB_REF##*/}
